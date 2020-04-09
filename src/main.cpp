@@ -1,17 +1,13 @@
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <vector>
 
-// ("",  '.') -> [""]
-// ("11", '.') -> ["11"]
-// ("..", '.') -> ["", "", ""]
-// ("11.", '.') -> ["11", ""]
-// (".11", '.') -> ["", "11"]
-// ("11.22", '.') -> ["11", "22"]
 std::vector<std::string> split(const std::string &str, char d)
 {
+    // TODO Refactoring
     std::vector<std::string> r;
 
     std::string::size_type start = 0;
@@ -29,58 +25,129 @@ std::vector<std::string> split(const std::string &str, char d)
     return r;
 }
 
+// TODO Access to members.
+class IPv4Address
+{
+public:
+    int oct1, oct2, oct3, oct4;
+
+    IPv4Address(): oct1(0), oct2(0), oct3(0), oct4(0) { }
+
+    IPv4Address(const std::string &address) {
+        // TODO Validation;
+        auto splited = split(address, '.');
+        oct1 = std::stoi(splited.at(0));
+        oct2 = std::stoi(splited.at(1));
+        oct3 = std::stoi(splited.at(2));
+        oct4 = std::stoi(splited.at(3));
+    }
+
+    // TODO assignment ctr.
+
+    operator std::string() const
+    {
+        return
+            std::to_string(oct1) + '.' +
+            std::to_string(oct2) + '.' +
+            std::to_string(oct3) + '.' +
+            std::to_string(oct4);
+    }
+
+    bool operator <(const IPv4Address &other) const
+    {
+        if (oct1 < other.oct1) return true;
+        else if (oct1 > other.oct1) return false;
+
+        if (oct2 < other.oct2) return true;
+        else if (oct2 > other.oct2) return false;
+
+        if (oct3 < other.oct3) return true;
+        else if (oct3 > other.oct3) return false;
+
+        if (oct4 < other.oct4) return true;
+        else if (oct4 > other.oct4) return false;
+
+        return false;
+    }
+
+    bool operator >(const IPv4Address &other) const
+    {
+        return other < *this;
+    }
+
+    bool operator ==(const IPv4Address &other) const
+    {
+        return (
+            oct1 == other.oct1 &&
+            oct2 == other.oct2 &&
+            oct3 == other.oct3 &&
+            oct4 == other.oct4);
+    }
+
+    bool operator !=(const IPv4Address &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool operator >=(const IPv4Address &other) const
+    {
+        return (*this > other || *this == other);
+    }
+
+    bool operator <=(const IPv4Address &other) const
+    {
+        return (*this < other || *this == other);
+    }
+};
+
+std::ostream &operator <<(std::ostream &stream, const IPv4Address &addr)
+{
+    stream << std::string(addr);
+    return stream;
+}
+
+void printIPv4Vector(const std::vector<IPv4Address> &vec)
+{
+    for (auto &addr: vec)
+    {
+        std::cout << addr << std::endl;
+    }
+}
+
 int main(int argc, char const *argv[])
 {
-    try
+    //try
     {
-        std::vector<std::vector<std::string> > ip_pool;
+        std::vector<IPv4Address> ip_pool;
 
         for(std::string line; std::getline(std::cin, line);)
         {
-            std::vector<std::string> v = split(line, '\t');
-            ip_pool.push_back(split(v.at(0), '.'));
+            auto v = split(line, '\t');
+            ip_pool.push_back(IPv4Address(v.at(0)));
         }
 
-        // TODO reverse lexicographically sort
+        std::sort(ip_pool.rbegin(), ip_pool.rend());
+        // printIPv4Vector(ip_pool);
 
-        for(std::vector<std::vector<std::string> >::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for(std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    std::cout << ".";
+        //std::for_each(
+        //    ip_pool.begin(),
+        //    ip_pool.end(),
+        //    [](const auto &addr) { if (addr.oct1 == 1) std::cout << addr << std::endl; });
 
-                }
-                std::cout << *ip_part;
-            }
-            std::cout << std::endl;
-        }
-
-        // 222.173.235.246
-        // 222.130.177.64
-        // 222.82.198.61
-        // ...
-        // 1.70.44.170
-        // 1.29.168.152
-        // 1.1.234.8
-
-        // TODO filter by first byte and output
-        // ip = filter(1)
-
-        // 1.231.69.33
-        // 1.87.203.225
-        // 1.70.44.170
-        // 1.29.168.152
-        // 1.1.234.8
+        //decltype(ip_pool) result (ip_pool.size());
+        //std::copy_if(
+        //    ip_pool.begin(),
+        //    ip_pool.end(),
+        //    result.begin(),
+        //    [](const auto &addr) { return (addr.oct1 == 1); });
+        //printIPv4Vector(result);
 
         // TODO filter by first and second bytes and output
         // ip = filter(46, 70)
-
-        // 46.70.225.39
-        // 46.70.147.26
-        // 46.70.113.73
-        // 46.70.29.76
+        std::for_each(
+            ip_pool.begin(),
+            ip_pool.end(),
+            [](const auto &addr) { if (addr.oct1 == 46 && addr.oct2 == 70) std::cout << addr << std::endl; });
 
         // TODO filter by any byte and output
         // ip = filter_any(46)
@@ -120,10 +187,12 @@ int main(int argc, char const *argv[])
         // 39.46.86.85
         // 5.189.203.46
     }
+    /*
     catch(const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
     }
+    */
 
     return 0;
 }

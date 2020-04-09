@@ -8,7 +8,7 @@ addons:
     - libgtest-dev
 
 script:
-- set -e # Останавливаться после первого плохого экзит-кода.
+- set -e
 - cmake .
 - cmake --build .
 - cmake --build . --target test
