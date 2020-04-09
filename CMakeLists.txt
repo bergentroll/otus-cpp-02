@@ -20,7 +20,11 @@ set(TESTS_PATH "tests/")
 include_directories("inc/")
 
 #add_library(helloworld ${SRC_PATH}/helloworld.cpp)
-add_executable(ip_filter ${SRC_PATH}/main.cpp)
+add_executable(
+    ip_filter
+    ${SRC_PATH}/main.cpp
+    ${SRC_PATH}/ipv4_address.cpp
+    ${SRC_PATH}/helpers.cpp)
 #set_target_properties(helloworld_cli PROPERTIES OUTPUT_NAME helloworld)
 #target_link_libraries(helloworld_cli helloworld)
 
