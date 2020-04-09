@@ -1,0 +1,22 @@
+language: cpp
+dist: bionic
+addons:
+  apt:
+    update: false
+    packages:
+    - libboost-test-dev
+    - libgtest-dev
+
+script:
+- set -e # Останавливаться после первого плохого экзит-кода.
+- cmake .
+- cmake --build .
+- cmake --build . --target test
+- cmake --build . --target package
+
+deploy:
+  provider: bintray
+  file: bintray.json
+  user: bergentroll
+  cleanup: false
+  edge: true
