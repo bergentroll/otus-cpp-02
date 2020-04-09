@@ -6,6 +6,8 @@
 #include "ipv4_address.h"
 #include "helpers.h"
 
+// TODO Add namespace.
+
 void printIPv4Vector(const std::vector<IPv4Address> &vec)
 {
     for (auto &addr: vec)
@@ -41,15 +43,16 @@ int main(int argc, char const *argv[])
     //    ip_pool.end(),
     //    [](const auto &addr) { if (addr.oct1 == 1) std::cout << addr << std::endl; });
 
-    decltype(ip_pool) result (ip_pool.size());
+    //decltype(ip_pool) result (ip_pool.size());
     // All glory to LISP!
-    result.resize(
-        std::distance(result.begin(),
-        std::copy_if(
-            ip_pool.begin(),
-            ip_pool.end(),
-            result.begin(),
-            [](const auto &addr) { return (addr.oct1 == 1); })));
+    //result.resize(
+    //    std::distance(result.begin(),
+    //    std::copy_if(
+    //        ip_pool.begin(),
+    //        ip_pool.end(),
+    //        result.begin(),
+    //        [](const auto &addr) { return (addr.oct1 == 1); })));
+    auto result = filter(ip_pool, 1);
     printIPv4Vector(result);
 
     // TODO filter by first and second bytes and output
