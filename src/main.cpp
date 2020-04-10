@@ -6,7 +6,7 @@
 #include "ipv4_address.h"
 #include "helpers.h"
 
-// TODO Add namespace.
+using namespace otus;
 
 void printIPv4Vector(const std::vector<IPv4Address> &vec)
 {

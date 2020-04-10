@@ -1,6 +1,8 @@
 #include "ipv4_address.h"
 #include "helpers.h"
 
+using namespace otus;
+
 IPv4Address::IPv4Address(const std::string &address)
 {
     // TODO Validation;
@@ -46,8 +48,11 @@ bool IPv4Address::operator ==(const IPv4Address &other) const
         oct4 == other.oct4);
 }
 
-std::ostream &operator <<(std::ostream &stream, const IPv4Address &addr)
+namespace otus
 {
-    stream << std::string(addr);
-    return stream;
+    std::ostream &operator <<(std::ostream &stream, const IPv4Address &addr)
+    {
+        stream << std::string(addr);
+        return stream;
+    }
 }

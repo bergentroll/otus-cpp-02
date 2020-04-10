@@ -5,31 +5,34 @@
 #include <vector>
 #include <string>
 
-// TODO Access to members.
-class IPv4Address
+namespace otus
 {
-public:
-    int oct1, oct2, oct3, oct4;
+    // TODO Access to members.
+    class IPv4Address
+    {
+    public:
+        int oct1, oct2, oct3, oct4;
 
-    IPv4Address(): oct1(0), oct2(0), oct3(0), oct4(0) { }
+        IPv4Address(): oct1(0), oct2(0), oct3(0), oct4(0) { }
 
-    IPv4Address(const std::string &address);
+        IPv4Address(const std::string &address);
 
-    operator std::string() const;
+        operator std::string() const;
 
-    bool operator <(const IPv4Address &other) const;
+        bool operator <(const IPv4Address &other) const;
 
-    bool operator >(const IPv4Address &other) const { return other < *this; }
+        bool operator >(const IPv4Address &other) const { return other < *this; }
 
-    bool operator ==(const IPv4Address &other) const;
+        bool operator ==(const IPv4Address &other) const;
 
-    bool operator !=(const IPv4Address &other) const { return !(*this == other); }
+        bool operator !=(const IPv4Address &other) const { return !(*this == other); }
 
-    bool operator >=(const IPv4Address &other) const { return (*this > other || *this == other); }
+        bool operator >=(const IPv4Address &other) const { return (*this > other || *this == other); }
 
-    bool operator <=(const IPv4Address &other) const { return (*this < other || *this == other); }
-};
+        bool operator <=(const IPv4Address &other) const { return (*this < other || *this == other); }
+    };
 
-std::ostream &operator <<(std::ostream &stream, const IPv4Address &addr);
+    std::ostream &operator <<(std::ostream &stream, const IPv4Address &addr);
+}
 
 #endif
