@@ -32,7 +32,7 @@ namespace otus
         return result;
     }
 
-    vector filter(const vector &origin, int oct1)
+    vector filter(const vector &origin, byte oct1)
     {
         return filter(
             origin,
@@ -42,7 +42,7 @@ namespace otus
             });
     }
 
-    std::vector<IPv4Address> filter(const vector &origin, int oct1, int oct2)
+    std::vector<IPv4Address> filter(const vector &origin, byte oct1, byte oct2)
     {
         return filter(
           origin,
@@ -52,7 +52,7 @@ namespace otus
           });
     }
 
-    vector filter(vector &origin, int oct1, int oct2, int oct3)
+    vector filter(vector &origin, byte oct1, byte oct2, byte oct3)
     {
         return filter(
             origin,
@@ -62,7 +62,7 @@ namespace otus
             });
     }
 
-    vector filter_any(const vector &origin, int val)
+    vector filter_any(const vector &origin, byte val)
     {
         return filter(
             origin,

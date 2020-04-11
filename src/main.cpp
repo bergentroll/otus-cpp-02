@@ -28,8 +28,7 @@ int main(int argc, char const *argv[])
             ip_pool.push_back(IPv4Address(v.at(0)));
         }
     }
-    // TODO Specify.
-    catch (std::exception &e)
+    catch (IPv4Address::InvalidOctet &e)
     {
         std::cerr << e.what() << std::endl;
     }

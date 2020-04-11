@@ -5,12 +5,11 @@ using namespace otus;
 
 IPv4Address::IPv4Address(const std::string &address)
 {
-    // TODO Validation;
     auto splited = split(address, '.');
-    oct1 = std::stoi(splited.at(0));
-    oct2 = std::stoi(splited.at(1));
-    oct3 = std::stoi(splited.at(2));
-    oct4 = std::stoi(splited.at(3));
+    oct1 = validateByte(std::stoi(splited.at(0)));
+    oct2 = validateByte(std::stoi(splited.at(1)));
+    oct3 = validateByte(std::stoi(splited.at(2)));
+    oct4 = validateByte(std::stoi(splited.at(3)));
 }
 
 IPv4Address::operator std::string() const
@@ -46,6 +45,14 @@ bool IPv4Address::operator ==(const IPv4Address &other) const
         oct2 == other.oct2 &&
         oct3 == other.oct3 &&
         oct4 == other.oct4);
+}
+
+byte IPv4Address::validateByte(int i) {
+    if (i < 0 || i > 255)
+    {
+        throw(InvalidOctet(i));
+    }
+    return i;
 }
 
 namespace otus
