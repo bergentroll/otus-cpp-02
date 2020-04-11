@@ -9,7 +9,7 @@ namespace otus
 {
     class IPv4Address;
 
-    std::vector<std::string> split(const std::string &str, char d);
+    std::vector<std::string> split(const std::string &str, char delim);
 
     std::vector<IPv4Address> filter(
         const std::vector<IPv4Address> &, const std::function<bool(const IPv4Address &)> &func);

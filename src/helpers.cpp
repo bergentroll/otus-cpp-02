@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <sstream>
 
 #include "helpers.h"
 #include "ipv4_address.h"
@@ -8,24 +9,13 @@ using vector = std::vector<IPv4Address>;
 
 namespace otus
 {
-    std::vector<std::string> split(const std::string &str, char d)
+    std::vector<std::string> split(const std::string &str, char delim)
     {
-        // TODO Refactoring
-        std::vector<std::string> r;
-
-        std::string::size_type start = 0;
-        std::string::size_type stop = str.find_first_of(d);
-        while(stop != std::string::npos)
-        {
-            r.push_back(str.substr(start, stop - start));
-
-            start = stop + 1;
-            stop = str.find_first_of(d, start);
-        }
-
-        r.push_back(str.substr(start));
-
-        return r;
+        std::vector<std::string> result;
+        std::string token;
+        std::istringstream stream {str};
+        while (std::getline(stream, token, delim)) result.push_back(token);
+        return result;
     }
 
     vector filter(const vector &origin, const std::function<bool(const IPv4Address &)> &func)

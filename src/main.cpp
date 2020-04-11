@@ -49,8 +49,6 @@ int main(int argc, char const *argv[])
     result = filter(ip_pool, 46, 70);
     printIPv4Vector(result);
 
-    // TODO filter by any byte and output
-    // ip = filter_any(46)
     result = filter_any(ip_pool, 46);
     printIPv4Vector(result);
 
