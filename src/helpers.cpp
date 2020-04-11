@@ -44,10 +44,45 @@ namespace otus
 
     vector filter(const vector &origin, int oct1)
     {
-        return filter(origin, [oct1](const auto &addr) { return (addr.oct1 == oct1); });
+        return filter(
+            origin,
+            [oct1](const auto &addr)
+            {
+                return (addr.oct1 == oct1);
+            });
     }
 
-    std::vector<IPv4Address> filter(IPv4Address &addr, int oct1, int oct2);
-    std::vector<IPv4Address> filter(IPv4Address &addr, int oct1, int oct2, int oct3);
-    std::vector<IPv4Address> filter_any(IPv4Address &addr, int val);
+    std::vector<IPv4Address> filter(const vector &origin, int oct1, int oct2)
+    {
+        return filter(
+          origin,
+          [oct1, oct2](const auto &addr)
+          {
+              return (addr.oct1 == oct1 && addr.oct2 == oct2);
+          });
+    }
+
+    vector filter(vector &origin, int oct1, int oct2, int oct3)
+    {
+        return filter(
+            origin,
+            [oct1, oct2, oct3](const auto &addr)
+            {
+                return (addr.oct1 == oct1 && addr.oct2 == oct2 && addr.oct3 == oct3);
+            });
+    }
+
+    vector filter_any(const vector &origin, int val)
+    {
+        return filter(
+            origin,
+            [val](const auto &addr)
+            {
+                return (
+                    addr.oct1 == val ||
+                    addr.oct2 == val ||
+                    addr.oct3 == val ||
+                    addr.oct4 == val);
+            });
+    }
 }
