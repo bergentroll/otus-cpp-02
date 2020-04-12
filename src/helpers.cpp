@@ -38,7 +38,7 @@ namespace otus
             origin,
             [oct1](const auto &addr)
             {
-                return (addr.oct1 == oct1);
+                return (addr.getOctet(1) == oct1);
             });
     }
 
@@ -48,7 +48,9 @@ namespace otus
           origin,
           [oct1, oct2](const auto &addr)
           {
-              return (addr.oct1 == oct1 && addr.oct2 == oct2);
+              return (
+                addr.getOctet(1) == oct1 &&
+                addr.getOctet(2) == oct2);
           });
     }
 
@@ -58,7 +60,10 @@ namespace otus
             origin,
             [oct1, oct2, oct3](const auto &addr)
             {
-                return (addr.oct1 == oct1 && addr.oct2 == oct2 && addr.oct3 == oct3);
+                return (
+                    addr.getOctet(1) == oct1 &&
+                    addr.getOctet(2) == oct2 &&
+                    addr.template getOctet<3>() == oct3);
             });
     }
 
@@ -68,11 +73,8 @@ namespace otus
             origin,
             [val](const auto &addr)
             {
-                return (
-                    addr.oct1 == val ||
-                    addr.oct2 == val ||
-                    addr.oct3 == val ||
-                    addr.oct4 == val);
+                for (const auto oct: addr) if (oct == val) return true;
+                return false;
             });
     }
 }

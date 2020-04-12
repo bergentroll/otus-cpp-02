@@ -5,46 +5,42 @@ using namespace otus;
 
 IPv4Address::IPv4Address(const std::string &address)
 {
+    // TODO test-case str == '2x56'
     auto splited = split(address, '.');
-    oct1 = validateByte(std::stoi(splited.at(0)));
-    oct2 = validateByte(std::stoi(splited.at(1)));
-    oct3 = validateByte(std::stoi(splited.at(2)));
-    oct4 = validateByte(std::stoi(splited.at(3)));
+
+    for (unsigned int i = 0; i < data.size(); i++)
+        data[i] = validateByte(std::stoi(splited.at(i)));
 }
 
 IPv4Address::operator std::string() const
 {
-    return
-        std::to_string(oct1) + '.' +
-        std::to_string(oct2) + '.' +
-        std::to_string(oct3) + '.' +
-        std::to_string(oct4);
+    std::string result { };
+
+    for (unsigned int i = 0; i < data.size() - 1; i++)
+        result += std::to_string(data[i]) + '.';
+
+    result += std::to_string(data.back());
+
+    return result;
 }
 
 bool IPv4Address::operator <(const IPv4Address &other) const
 {
-    if (oct1 < other.oct1) return true;
-    else if (oct1 > other.oct1) return false;
-
-    if (oct2 < other.oct2) return true;
-    else if (oct2 > other.oct2) return false;
-
-    if (oct3 < other.oct3) return true;
-    else if (oct3 > other.oct3) return false;
-
-    if (oct4 < other.oct4) return true;
-    else if (oct4 > other.oct4) return false;
+    for (unsigned int i = 0; i < data.size(); i++)
+    {
+        if (data[i] < other.data[i]) return true;
+        else if (data[i] > other.data[i]) return false;
+    }
 
     return false;
 }
 
 bool IPv4Address::operator ==(const IPv4Address &other) const
 {
-    return (
-        oct1 == other.oct1 &&
-        oct2 == other.oct2 &&
-        oct3 == other.oct3 &&
-        oct4 == other.oct4);
+    for (unsigned int i = 0; i < data.size(); i++)
+        if (data[i] != other.data[i]) return false;
+
+    return true;
 }
 
 byte IPv4Address::validateByte(int i) {

@@ -14,9 +14,7 @@ namespace otus
     class IPv4Address
     {
     public:
-        byte oct1, oct2, oct3, oct4;
-
-        IPv4Address(): oct1(0), oct2(0), oct3(0), oct4(0) { }
+        IPv4Address() { };
 
         IPv4Address(const std::string &address);
 
@@ -34,6 +32,23 @@ namespace otus
 
         bool operator <=(const IPv4Address &other) const { return (*this < other || *this == other); }
 
+        /// Get address octet by number. First octet is 1, last is 4.
+        template <int I>
+        byte getOctet() const
+        {
+            static_assert(I >= 1 && I <= 4, "Octet index is out of range.");
+            return getOctet(I);
+        }
+
+        /** Get address octet by number (runtime version). First octet is 1, last is 4.
+         *  Exception
+         */
+        byte getOctet(int index) const { return data.at(index - 1); }
+
+        std::vector<byte>::const_iterator begin() const { return data.begin(); }
+
+        std::vector<byte>::const_iterator end() const { return data.end(); }
+
         class InvalidOctet: public std::runtime_error
         {
         public:
@@ -44,6 +59,8 @@ namespace otus
         };
 
     private:
+        std::vector<byte> data = std::vector<byte>(4);
+
         static byte validateByte(int i);
     };
 

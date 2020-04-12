@@ -28,6 +28,7 @@ int main(int argc, char const *argv[])
             ip_pool.push_back(IPv4Address(v.at(0)));
         }
     }
+    // TODO Out of range also must be catched.
     catch (IPv4Address::InvalidOctet &e)
     {
         std::cerr << e.what() << std::endl;
@@ -43,7 +44,11 @@ int main(int argc, char const *argv[])
     //std::for_each(
     //    ip_pool.begin(),
     //    ip_pool.end(),
-    //    [](const auto &addr) { if (addr.oct1 == 1) std::cout << addr << std::endl; });
+    //    [](const auto &addr)
+    //    {
+    //        if (addr.template getOctet<1>() == 1)
+    //            std::cout << addr << std::endl;
+    //    });
 
     result = filter(ip_pool, 46, 70);
     printIPv4Vector(result);
