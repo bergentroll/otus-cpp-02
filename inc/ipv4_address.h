@@ -10,10 +10,11 @@ namespace otus
 {
     using byte = uint8_t;
 
-    // TODO Access to members.
     class IPv4Address
     {
     public:
+        constexpr static int size { 4 };
+
         IPv4Address() { };
 
         IPv4Address(const std::string &address);
@@ -36,7 +37,7 @@ namespace otus
         template <int I>
         byte getOctet() const
         {
-            static_assert(I >= 1 && I <= 4, "Octet index is out of range.");
+            static_assert(I >= 1 && I <= size, "Octet index is out of range.");
             return getOctet(I);
         }
 
@@ -49,19 +50,17 @@ namespace otus
 
         std::vector<byte>::const_iterator end() const { return data.end(); }
 
-        class InvalidOctet: public std::runtime_error
+        class InvalidAddressString: public std::logic_error
         {
         public:
-            int value;
-
-            explicit InvalidOctet(int octet):
-            std::runtime_error("Invalid octet " + std::to_string(octet) + " given to IPv4Address.") { }
+            explicit InvalidAddressString(const std::string &input):
+            std::logic_error(
+                "Invalid IPv4 address \"" + input +
+                "\" has been given to IPv4Address.") { }
         };
+private: std::vector<byte> data = std::vector<byte>(size);
 
-    private:
-        std::vector<byte> data = std::vector<byte>(4);
-
-        static byte validateByte(int i);
+        static bool isValidOctet(int i);
     };
 
     std::ostream &operator <<(std::ostream &stream, const IPv4Address &addr);

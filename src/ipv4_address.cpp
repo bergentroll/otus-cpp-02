@@ -7,9 +7,16 @@ IPv4Address::IPv4Address(const std::string &address)
 {
     // TODO test-case str == '2x56'
     auto splited = split(address, '.');
+    int octet;
+
+    if (splited.size() != data.size()) throw InvalidAddressString(address);
 
     for (unsigned int i = 0; i < data.size(); i++)
-        data[i] = validateByte(std::stoi(splited.at(i)));
+    {
+        octet = std::stoi(splited[i]);
+        if (!isValidOctet(octet)) throw InvalidAddressString(address);
+        data[i] = octet;
+    }
 }
 
 IPv4Address::operator std::string() const
@@ -43,12 +50,10 @@ bool IPv4Address::operator ==(const IPv4Address &other) const
     return true;
 }
 
-byte IPv4Address::validateByte(int i) {
-    if (i < 0 || i > 255)
-    {
-        throw(InvalidOctet(i));
-    }
-    return i;
+bool IPv4Address::isValidOctet(int i) {
+    if (i >= 0 && i <= 255)
+        return true; 
+    return false;
 }
 
 namespace otus

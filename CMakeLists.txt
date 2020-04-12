@@ -46,10 +46,10 @@ else()
 endif()
 
 if(UNIX)
-    configure_file(${CMAKE_SOURCE_DIR}/${TEST_PATH}/hash.sh.in hash.sh)
+    configure_file(${CMAKE_SOURCE_DIR}/${TEST_PATH}/hash.sh.in hash.sh @ONLY)
     enable_testing()
     add_test(
-        NAME integration-test
+        NAME integration_test
         COMMAND "bash" "hash.sh")
 endif()
 
