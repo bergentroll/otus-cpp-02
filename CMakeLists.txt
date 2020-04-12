@@ -19,13 +19,13 @@ set(SRC_PATH "src/")
 set(TEST_PATH "test/")
 include_directories("inc/")
 
-#add_library(helloworld ${SRC_PATH}/helloworld.cpp)
-add_executable(
-    ip_filter
-    ${SRC_PATH}/main.cpp
+add_library(
+    ip_filter_obj
     ${SRC_PATH}/ipv4_address.cpp
     ${SRC_PATH}/helpers.cpp)
-set_target_properties(ip_filter PROPERTIES ENABLE_EXPORTS 1)
+
+add_executable(ip_filter ${SRC_PATH}/main.cpp)
+target_link_libraries(ip_filter ip_filter_obj)
 
 if(EXISTS "${GTEST_SRCDIR}/CMakeLists.txt")
   add_subdirectory(${GTEST_SRCDIR}/ ${CMAKE_BINARY_DIR}/gtest/ EXCLUDE_FROM_ALL)
@@ -34,7 +34,7 @@ if(EXISTS "${GTEST_SRCDIR}/CMakeLists.txt")
   target_link_libraries(
     test_suite
     PRIVATE
-    ip_filter
+    ip_filter_obj
     gtest)
   enable_testing()
   add_test(test_suite test_suite)
