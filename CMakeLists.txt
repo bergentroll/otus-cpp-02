@@ -5,7 +5,7 @@ if($ENV{TRAVIS_BUILD_NUMBER})
 else()
   set(VERSION 0.0.0)
 endif()
-project(otus-cpp-03 VERSION ${VERSION})
+project(ip_filter VERSION ${VERSION})
 
 set_target_properties(${TARGET} PROPERTIES
   CXX_STANDARD 14
