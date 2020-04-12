@@ -5,16 +5,26 @@ using namespace otus;
 
 IPv4Address::IPv4Address(const std::string &address)
 {
-    // TODO test-case str == '2x56'
     auto splited = split(address, '.');
     int octet;
+    size_t idx;
 
     if (splited.size() != data.size()) throw InvalidAddressString(address);
 
     for (unsigned int i = 0; i < data.size(); i++)
     {
-        octet = std::stoi(splited[i]);
-        if (!isValidOctet(octet)) throw InvalidAddressString(address);
+        try
+        {
+            octet = std::stoi(splited[i], &idx);
+        }
+        catch (std::invalid_argument &e)
+        {
+            throw InvalidAddressString(address);
+        }
+
+        if (!isValidOctet(octet) || idx < splited[i].size())
+            throw InvalidAddressString(address);
+
         data[i] = octet;
     }
 }

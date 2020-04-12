@@ -16,7 +16,7 @@ TEST(ipv4_address, default_ctr)
 TEST(ipv4_address, string_ctr)
 {
     ASSERT_EQ(string(IPv4Address{ "127.0.0.1" }), "127.0.0.1");
-    ASSERT_EQ(string(IPv4Address{ "127.0.0.1 " }), "127.0.0.1");
+    ASSERT_THROW(IPv4Address{ "127.0.0.1 " }, IPv4Address::InvalidAddressString);
     ASSERT_THROW(IPv4Address{ "327.0.0.1" }, IPv4Address::InvalidAddressString);
     ASSERT_THROW(IPv4Address{ "127.0.1" }, IPv4Address::InvalidAddressString);
     ASSERT_THROW(IPv4Address{ "127.zero.0.1" }, IPv4Address::InvalidAddressString);

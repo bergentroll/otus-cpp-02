@@ -40,16 +40,14 @@ int main(int argc, char const *argv[])
     printIPv4Vector(result);
 
     // Efficient implementation without copying.
-    /*
-    std::for_each(
-        ip_pool.begin(),
-        ip_pool.end(),
-        [](const auto &addr)
-        {
-            if (addr.template getOctet<1>() == 1)
-                std::cout << addr << std::endl;
-        });
-    */
+    //std::for_each(
+    //    ip_pool.begin(),
+    //    ip_pool.end(),
+    //    [](const auto &addr)
+    //    {
+    //        if (addr.template getOctet<1>() == 1)
+    //            std::cout << addr << std::endl;
+    //    });
 
     result = filter(ip_pool, 46, 70);
     printIPv4Vector(result);
