@@ -17,6 +17,10 @@ namespace otus
 
         IPv4Address() { };
 
+        /** @brief Create object with text representation.
+         *  @param address Dot separated octets expected.
+         *  @throw InvalidAddressString On illformed input (octets amount, octets values.
+         */
         IPv4Address(const std::string &address);
 
         operator std::string() const;
@@ -33,7 +37,7 @@ namespace otus
 
         bool operator <=(const IPv4Address &other) const { return (*this < other || *this == other); }
 
-        /// Get address octet by number. First octet is 1, last is 4.
+        /// Get address octet by number (compile time check).
         template <int I>
         byte getOctet() const
         {
@@ -41,8 +45,9 @@ namespace otus
             return getOctet(I);
         }
 
-        /** Get address octet by number (runtime version). First octet is 1, last is 4.
-         *  Exception
+        /** @brief Get address octet by number (runtime version).
+         *  @param index Number of octet starting from 1.
+         *  @throw std::out_of_range On invalid octet index.
          */
         byte getOctet(int index) const { return data.at(index - 1); }
 
