@@ -5,7 +5,7 @@
 #include "ipv4_address.h"
 
 using namespace otus;
-using vector = std::vector<IPv4Address>;
+using ipv4_list = std::vector<IPv4Address>;
 
 namespace otus
 {
@@ -18,9 +18,9 @@ namespace otus
         return result;
     }
 
-    vector filter(const vector &origin, const std::function<bool(const IPv4Address &)> &func)
+    ipv4_list filter(const ipv4_list &origin, const std::function<bool(const IPv4Address &)> &func)
     {
-        vector result (origin.size());
+        ipv4_list result (origin.size());
         // All glory to LISP!
         result.resize(
                 std::distance(result.begin(),
@@ -32,7 +32,7 @@ namespace otus
         return result;
     }
 
-    vector filter(const vector &origin, byte oct1)
+    ipv4_list filter(const ipv4_list &origin, byte oct1)
     {
         return filter(
             origin,
@@ -42,7 +42,7 @@ namespace otus
             });
     }
 
-    std::vector<IPv4Address> filter(const vector &origin, byte oct1, byte oct2)
+    std::vector<IPv4Address> filter(const ipv4_list &origin, byte oct1, byte oct2)
     {
         return filter(
           origin,
@@ -54,7 +54,7 @@ namespace otus
           });
     }
 
-    vector filter(vector &origin, byte oct1, byte oct2, byte oct3)
+    ipv4_list filter(ipv4_list &origin, byte oct1, byte oct2, byte oct3)
     {
         return filter(
             origin,
@@ -67,7 +67,7 @@ namespace otus
             });
     }
 
-    vector filter_any(const vector &origin, byte val)
+    ipv4_list filter_any(const ipv4_list &origin, byte val)
     {
         return filter(
             origin,
