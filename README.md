@@ -1,5 +1,5 @@
 [![Build Status](
-  https://travis-ci.com/bergentroll/otus-cpp-03.svg?branch=master
-)](https://travis-ci.com/bergentroll/otus-cpp-03)
+  https://travis-ci.com/bergentroll/otus-cpp-02.svg?branch=master
+)](https://travis-ci.com/bergentroll/otus-cpp-02)
 
-# Домашнее задание 3
+# Домашнее задание 2
