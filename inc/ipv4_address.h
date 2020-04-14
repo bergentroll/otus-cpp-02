@@ -4,7 +4,7 @@
 #include <ostream>
 #include <stdexcept>
 #include <string>
-#include <vector>
+#include <array>
 
 namespace otus
 {
@@ -15,7 +15,7 @@ namespace otus
     public:
         constexpr static int size { 4 };
 
-        IPv4Address() { };
+        IPv4Address(): data() { };
 
         /** @brief Create object with text representation.
          *  @param address Dot separated octets expected.
@@ -51,9 +51,9 @@ namespace otus
          */
         byte getOctet(int index) const { return data.at(index - 1); }
 
-        std::vector<byte>::const_iterator begin() const { return data.begin(); }
+        std::array<byte, size>::const_iterator begin() const { return data.begin(); }
 
-        std::vector<byte>::const_iterator end() const { return data.end(); }
+        std::array<byte, size>::const_iterator end() const { return data.end(); }
 
         class InvalidAddressString: public std::logic_error
         {
@@ -63,7 +63,9 @@ namespace otus
                 "Invalid IPv4 address \"" + input +
                 "\" has been given to IPv4Address.") { }
         };
-private: std::vector<byte> data = std::vector<byte>(size);
+
+    private:
+        std::array<byte, size> data;
 
         static bool isValidOctet(int i);
     };
