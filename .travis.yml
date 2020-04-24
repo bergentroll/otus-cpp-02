@@ -4,11 +4,14 @@ addons:
   apt:
     update: false
     packages:
-    - libboost-test-dev
-    - libgtest-dev
+    - python3-pip
+    - python3-setuptools
+    - python3-wheel
 
-before_script:
-- conan profile update settings.compiler.libcxx=libstdc++11 default
+install:
+  - pip3 install conan==1.24
+  - conan profile new default --detect
+  - conan profile update settings.compiler.libcxx=libstdc++11 default
 
 script:
 - set -e
