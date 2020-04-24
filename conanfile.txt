@@ -1,0 +1,8 @@
+[requires]
+range-v3/0.10.0@ericniebler/stable
+gtest/1.8.1@bincrafters/stable
+
+[generators]
+cmake
+
+# vi: syntax=dosini

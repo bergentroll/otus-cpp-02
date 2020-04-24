@@ -7,9 +7,13 @@ addons:
     - libboost-test-dev
     - libgtest-dev
 
+before_script:
+- conan profile update settings.compiler.libcxx=libstdc++11 default
+
 script:
 - set -e
-- cmake .
+- conan install -s build_type=Release --build missing .
+- cmake --DCMAKE_BUILD_TYPE=Release . # TODO Use var for type.
 - cmake --build .
 - cmake --build . --target test
 - cmake --build . --target package

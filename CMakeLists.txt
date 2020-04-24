@@ -13,7 +13,8 @@ set_target_properties(${TARGET} PROPERTIES
   CXX_EXTENSIONS NO
 )
 
-set(GTEST_SRCDIR "/usr/src/gtest/")
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 set(SRC_PATH "src/")
 set(TEST_PATH "test/")
@@ -25,32 +26,26 @@ add_library(
     ${SRC_PATH}/helpers.cpp)
 
 add_executable(ip_filter ${SRC_PATH}/main.cpp)
-target_link_libraries(ip_filter ip_filter_obj)
+target_link_libraries(ip_filter ip_filter_obj ${CONAN_LIBS_RANGE-V3})
 
-if(EXISTS "${GTEST_SRCDIR}/CMakeLists.txt")
-  add_subdirectory(${GTEST_SRCDIR}/ ${CMAKE_BINARY_DIR}/gtest/ EXCLUDE_FROM_ALL)
-
-  add_executable(test_suite ${TEST_PATH}/test.cpp)
-  target_link_libraries(
-    test_suite
-    PRIVATE
-    ip_filter_obj
-    gtest)
-  enable_testing()
-  add_test(test_suite test_suite)
-else()
-  message(
-    WARNING
-    "GTest test suite will not be launched because GTest sources is not found"
-    " at ${GTEST_SRCDIR}.")
-endif()
+add_executable(test_suite ${TEST_PATH}/test.cpp)
+target_link_libraries(
+  test_suite
+  PRIVATE
+  ip_filter_obj
+  ${CONAN_LIBS_GTEST})
+enable_testing()
+add_test(test_suite bin/test_suite)
 
 if(UNIX)
-    configure_file(${CMAKE_SOURCE_DIR}/${TEST_PATH}/hash.sh.in hash.sh @ONLY)
+    configure_file(
+      ${CMAKE_SOURCE_DIR}/${TEST_PATH}/hash.sh.in
+      bin/hash.sh
+      @ONLY)
     enable_testing()
     add_test(
-        NAME integration_test
-        COMMAND "bash" "hash.sh")
+      NAME integration_test
+      COMMAND "bash" "bin/hash.sh")
 endif()
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
