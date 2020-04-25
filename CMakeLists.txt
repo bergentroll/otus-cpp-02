@@ -28,6 +28,9 @@ add_library(
 add_executable(ip_filter ${SRC_PATH}/main.cpp)
 target_link_libraries(ip_filter ip_filter_obj ${CONAN_LIBS_RANGE-V3})
 
+add_executable(profiling ${SRC_PATH}/profiling.cpp)
+target_link_libraries(profiling ip_filter_obj ${CONAN_LIBS_RANGE-V3})
+
 add_executable(test_suite ${TEST_PATH}/test.cpp)
 target_link_libraries(
   test_suite
