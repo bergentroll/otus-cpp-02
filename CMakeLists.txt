@@ -24,9 +24,10 @@ add_library(
     ip_filter_obj
     ${SRC_PATH}/ipv4_address.cpp
     ${SRC_PATH}/helpers.cpp)
+target_link_libraries(ip_filter_obj ${CONAN_LIBS_RANGE-V3})
 
 add_executable(ip_filter ${SRC_PATH}/main.cpp)
-target_link_libraries(ip_filter ip_filter_obj ${CONAN_LIBS_RANGE-V3})
+target_link_libraries(ip_filter ip_filter_obj)
 
 add_executable(profiling ${SRC_PATH}/profiling.cpp)
 target_link_libraries(profiling ip_filter_obj ${CONAN_LIBS_RANGE-V3})
