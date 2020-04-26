@@ -23,6 +23,7 @@ script:
 - cmake --DCMAKE_BUILD_TYPE=${BUILD_TYPE} .
 - cmake --build .
 - cmake --build . --target test
+- ./bin/profiling
 - cmake --build . --target package
 
 deploy:

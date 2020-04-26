@@ -3,17 +3,19 @@
 #include <string>
 #include <vector>
 
+#include <range/v3/action/sort.hpp>
+#include <range/v3/range/conversion.hpp>
+#include <range/v3/view/reverse.hpp>
+
 #include "ipv4_address.h"
 #include "helpers.h"
 
 using namespace otus;
 
-void printIPv4Vector(const std::vector<IPv4Address> &vec)
-{
-    for (auto &addr: vec)
-    {
+template <typename T>
+void print(T &vec) {
+    for (auto const &addr: vec)
         std::cout << addr << std::endl;
-    }
 }
 
 int main(int argc, char const *argv[])
@@ -33,17 +35,18 @@ int main(int argc, char const *argv[])
         std::cerr << e.what() << std::endl;
     }
 
-    std::sort(ip_pool.rbegin(), ip_pool.rend());
-    printIPv4Vector(ip_pool);
+    ip_pool |= ranges::actions::sort;
+    auto ip_pool_view { ip_pool | ranges::views::reverse };
+    print(ip_pool_view);
 
-    auto result = filter(ip_pool, 1);
-    printIPv4Vector(result);
+    auto view1 { filter_rng(ip_pool_view, 1) };
+    print(view1);
 
-    result = filter(ip_pool, 46, 70);
-    printIPv4Vector(result);
+    auto view2 { filter_rng(ip_pool_view, 46, 70) };
+    print(view2);
 
-    result = filter_any(ip_pool, 46);
-    printIPv4Vector(result);
+    auto view3 { filter_any_rng(ip_pool_view, 46) };
+    print(view3);
 
     return 0;
 }

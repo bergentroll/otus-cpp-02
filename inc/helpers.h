@@ -6,6 +6,7 @@
 #include <functional>
 
 #include <range/v3/view/any_view.hpp>
+#include <range/v3/view/filter.hpp>
 
 namespace otus
 {
@@ -31,17 +32,50 @@ namespace otus
     std::vector<IPv4Address> filter_any(
         const std::vector<IPv4Address> &, byte val);
 
-    ranges::any_view<IPv4Address> filter_rng(
-        const std::vector<IPv4Address> &, byte oct1);
+    template <typename T>
+    auto filter_rng(const T &origin, byte oct1)
+    {
+      return origin | ranges::views::filter(
+          [oct1](const auto &addr) { return (addr.getOctet(1) == oct1); });
+    }
 
-    ranges::any_view<IPv4Address> filter_rng(
-        const std::vector<IPv4Address> &, byte oct1, byte oct2);
+    template <typename T>
+    auto filter_rng(
+        const T &origin, byte oct1, byte oct2)
+    {
+        return origin | ranges::views::filter(
+          [oct1, oct2](const auto &addr)
+          {
+              return (
+                addr.getOctet(1) == oct1 &&
+                addr.getOctet(2) == oct2);
+          });
+    }
 
-    ranges::any_view<IPv4Address> filter_rng(
-        const std::vector<IPv4Address> &, byte oct1, byte oct2, byte oct3);
+    template <typename T>
+    auto filter_rng(
+        const T &origin, byte oct1, byte oct2, byte oct3)
+    {
+        return origin | ranges::views::filter(
+            [oct1, oct2, oct3](const auto &addr)
+            {
+                return (
+                    addr.getOctet(1) == oct1 &&
+                    addr.getOctet(2) == oct2 &&
+                    addr.template getOctet<3>() == oct3);
+            });
+    }
 
-    ranges::any_view<IPv4Address> filter_any_rng(
-        const std::vector<IPv4Address> &, byte val);
+    template <typename T>
+    auto filter_any_rng(const T &origin, byte val)
+    {
+        return origin | ranges::views::filter(
+            [val](const auto &addr)
+            {
+                for (const auto oct: addr) if (oct == val) return true;
+                return false;
+            });
+    }
 }
 
 #endif

@@ -1,13 +1,10 @@
 #include <algorithm>
 #include <sstream>
 
-#include <range/v3/view/filter.hpp>
-
 #include "helpers.h"
 #include "ipv4_address.h"
 
 using namespace otus;
-using namespace ranges;
 using ipv4_list = std::vector<IPv4Address>;
 
 namespace otus
@@ -74,45 +71,6 @@ namespace otus
     {
         return filter(
             origin,
-            [val](const auto &addr)
-            {
-                for (const auto oct: addr) if (oct == val) return true;
-                return false;
-            });
-    }
-
-    any_view<IPv4Address> filter_rng(const ipv4_list &origin, byte oct1)
-    {
-      return origin | views::filter(
-          [oct1](const auto &addr) { return (addr.getOctet(1) == oct1); });
-    }
-
-    any_view<IPv4Address> filter_rng(const ipv4_list &origin, byte oct1, byte oct2)
-    {
-        return origin | views::filter(
-          [oct1, oct2](const auto &addr)
-          {
-              return (
-                addr.getOctet(1) == oct1 &&
-                addr.getOctet(2) == oct2);
-          });
-    }
-
-    any_view<IPv4Address> filter_rng(ipv4_list &origin, byte oct1, byte oct2, byte oct3)
-    {
-        return origin | views::filter(
-            [oct1, oct2, oct3](const auto &addr)
-            {
-                return (
-                    addr.getOctet(1) == oct1 &&
-                    addr.getOctet(2) == oct2 &&
-                    addr.template getOctet<3>() == oct3);
-            });
-    }
-
-    any_view<IPv4Address> filter_any_rng(const ipv4_list &origin, byte val)
-    {
-        return origin | views::filter(
             [val](const auto &addr)
             {
                 for (const auto oct: addr) if (oct == val) return true;
