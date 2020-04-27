@@ -13,7 +13,7 @@
 using namespace otus;
 
 template <typename T>
-void print(T &vec) {
+void print(T &&vec) {
     for (auto const &addr: vec)
         std::cout << addr << std::endl;
 }
@@ -39,14 +39,11 @@ int main(int argc, char const *argv[])
     auto ip_pool_view { ip_pool | ranges::views::reverse };
     print(ip_pool_view);
 
-    auto view1 { filter_rng(ip_pool_view, 1) };
-    print(view1);
+    print(filter_rng(ip_pool_view, 1));
 
-    auto view2 { filter_rng(ip_pool_view, 46, 70) };
-    print(view2);
+    print(filter_rng(ip_pool_view, 46, 70));
 
-    auto view3 { filter_any_rng(ip_pool_view, 46) };
-    print(view3);
+    print(filter_any_rng(ip_pool_view, 46));
 
     return 0;
 }
