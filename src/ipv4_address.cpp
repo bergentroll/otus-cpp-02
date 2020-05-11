@@ -43,13 +43,9 @@ IPv4Address::operator std::string() const
 
 bool IPv4Address::operator <(const IPv4Address &other) const
 {
-    for (unsigned int i = 0; i < data.size(); i++)
-    {
-        if (data[i] < other.data[i]) return true;
-        else if (data[i] > other.data[i]) return false;
-    }
-
-    return false;
+    return std::lexicographical_compare(
+        this->begin(), this->end(),
+        other.begin(), other.end());
 }
 
 bool IPv4Address::operator ==(const IPv4Address &other) const
