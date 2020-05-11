@@ -51,9 +51,9 @@ namespace otus
          */
         byte getOctet(int index) const { return data.at(index - 1); }
 
-        std::array<byte, size>::const_iterator begin() const { return data.begin(); }
+        std::array<byte, size>::const_iterator begin() const { return data.cbegin(); }
 
-        std::array<byte, size>::const_iterator end() const { return data.end(); }
+        std::array<byte, size>::const_iterator end() const { return data.cend(); }
 
         class InvalidAddressString: public std::logic_error
         {
