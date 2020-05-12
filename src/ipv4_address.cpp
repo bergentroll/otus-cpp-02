@@ -21,6 +21,10 @@ IPv4Address::IPv4Address(const std::string &address)
         {
             throw InvalidAddressString(address);
         }
+        catch (std::out_of_range &e)
+        {
+            throw InvalidAddressString(address);
+        }
 
         if (!isValidOctet(octet) || idx < splited[i].size())
             throw InvalidAddressString(address);
