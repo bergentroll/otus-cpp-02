@@ -1,0 +1,17 @@
+#! /bin/bash
+
+set -e
+
+standard='24e7a7b2270daee89c64d3ca5fb3da1a  -'
+
+result=$(
+  @CMAKE_BINARY_DIR@/bin/@TESTING_BINARY@ < "@CMAKE_SOURCE_DIR@/data/data.tsv" |
+  md5sum)
+
+if [ "${result}" != "${standard}" ]; then
+    echo 'Hash sum test has been failed.'
+    exit 1
+else
+    echo 'Hash sum test has been succeed.'
+    exit 0
+fi
