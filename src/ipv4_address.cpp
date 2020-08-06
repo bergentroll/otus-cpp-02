@@ -60,11 +60,7 @@ bool IPv4Address::operator ==(const IPv4Address &other) const
     return true;
 }
 
-bool IPv4Address::isValidOctet(int i) {
-    if (i >= 0 && i <= 255)
-        return true; 
-    return false;
-}
+bool IPv4Address::isValidOctet(int i) { return (i >= 0 && i <= 255); }
 
 namespace otus
 {
